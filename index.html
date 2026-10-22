@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuestionario: manejo responsable de la IA generativa</title>
+<style>
+:root{--bg:#eef2f1;--card:#fff;--ink:#15262b;--mut:#5a6b70;--ac:#0b5d63;--ac2:#b8892b;--line:#d5dedd;--err:#b3261e}
+@media (prefers-color-scheme:dark){:root{--bg:#10191b;--card:#182427;--ink:#e6eeee;--mut:#9fb1b4;--ac:#5ec4c9;--ac2:#e0b25a;--line:#2c3d41;--err:#ff8a80}}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Segoe UI",system-ui,sans-serif}
+main{max-width:860px;margin:0 auto;padding:20px 14px 60px}
+h1{font:700 1.7rem/1.25 Georgia,serif;margin:.2em 0}
+h2{font:700 1.25rem Georgia,serif;margin:0;padding:12px 16px;background:var(--ac);color:#fff;border-radius:10px 10px 0 0}
+@media (prefers-color-scheme:dark){h2{color:#10191b}}
+h3{font:600 1.05rem Georgia,serif;margin:22px 0 4px;color:var(--ac)}
+.sub{margin:0;padding:8px 16px;background:var(--card);border:1px solid var(--line);border-top:0;color:var(--mut);font-style:italic}
+.part{margin:28px 0}.body{background:var(--card);border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;padding:4px 16px 16px}
+a{color:var(--ac);font-weight:600}.box{background:var(--card);border-left:5px solid var(--ac2);padding:12px 16px;border-radius:6px;margin:14px 0}
+.q{padding:10px 0;border-bottom:1px dashed var(--line)}
+.q.err{outline:2px solid var(--err);outline-offset:3px;border-radius:6px}
+.qt{margin:0 0 6px}.note{color:var(--mut);font-size:.88rem;margin:0 0 6px}em.note{display:block}
+.opts{display:flex;flex-direction:column;gap:4px}.opts.inl{flex-direction:row;flex-wrap:wrap;gap:6px 18px}
+label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+input[type=radio],input[type=checkbox]{margin-top:5px;accent-color:var(--ac)}
+.oth{margin-left:6px;padding:4px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;min-width:220px}
+.tw{overflow-x:auto;margin:6px 0}
+table{border-collapse:collapse;width:100%}
+.sc th,.sc td{border:1px solid var(--line);padding:7px 8px;text-align:center;font-size:.9rem}
+.sc th:first-child,.sc td:first-child{text-align:left;min-width:230px}.sc th{background:var(--bg)}
+tr.q.err{outline:2px solid var(--err);outline-offset:-2px}
+.sb{margin-top:24px;text-align:center}
+button{font:600 1rem inherit;padding:10px 20px;border:0;border-radius:8px;background:var(--ac);color:#fff;cursor:pointer;margin:4px}
+@media (prefers-color-scheme:dark){button{color:#10191b}}
+button.alt{background:transparent;color:var(--ac);border:2px solid var(--ac)}
+:focus-visible{outline:3px solid var(--ac2);outline-offset:2px}
+#msg{color:var(--err);font-weight:600}
+.out th,.out td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top;font-size:.9rem}
+.out th{background:var(--ac);color:#fff;position:sticky;top:0}
+@media (prefers-color-scheme:dark){.out th{color:#10191b}}
+.out tr.na td{color:var(--mut)}.out td:first-child{font-weight:700;white-space:nowrap}
+@media print{button,.sb{display:none}}
+</style>
+</head>
+<body>
+<main>
+<h1>Cuestionario en línea: manejo responsable de la inteligencia artificial generativa en estudiantes de Pedagogía</h1>
+<p class="note">Universidad Veracruzana · Facultad de Pedagogía · Región Xalapa</p>
+<div id="app">
+<div class="box"><b>Instrucciones para el participante.</b> Este cuestionario forma parte de un proyecto pedagógico sobre el manejo responsable de la inteligencia artificial (IA) generativa en estudiantes de Pedagogía. Tu participación es voluntaria y anónima: no se solicitan tu nombre ni tu correo, y los datos se usarán únicamente con fines académicos. No hay respuestas correctas o incorrectas. Responde con sinceridad pensando en tu experiencia como estudiante. En las preguntas de selección múltiple puedes marcar todas las opciones que apliquen; en las demás, elige solo una.</div>
+<div class="box" id="aviso"><b>Aviso de privacidad.</b> Antes de continuar, lee el <a href="aviso_privacidad_estudiantes_UV.pdf" target="_blank" rel="noopener">Aviso de Privacidad de Estudiantes de la Universidad Veracruzana (PDF)</a>; también puedes consultar su <a href="https://www.uv.mx/transparencia/infpublica/avisos-privacidad/" target="_blank" rel="noopener">versión oficial en línea</a>. Si tienes dudas sobre el tratamiento de tus datos, escribe a datospersonales@uv.mx. Al aceptar participar en la pregunta CI, confirmas que lo leíste.</div>
+<form id="F" novalidate></form>
+<p id="bye" class="box" hidden>Gracias por tu tiempo. Al no aceptar participar, el cuestionario termina aquí y no se registra ninguna respuesta.</p>
+<div class="sb" id="sb" data-g="k" hidden><p id="msg" role="alert"></p><button type="button" id="send">Enviar respuestas</button></div>
+</div>
+<p id="thx" class="box" hidden><b>¡Gracias por participar!</b> Tus respuestas se enviaron de forma anónima. Ya puedes cerrar esta página.</p>
+<section id="out" hidden>
+<h2 style="border-radius:10px 10px 0 0">Cuadro de salida de la respuesta</h2>
+<div class="body">
+<p id="meta" class="note"></p>
+<div class="sb" style="text-align:left;margin:0 0 10px"><button id="d1">Descargar esta respuesta (CSV)</button><button id="dall" class="alt"></button><button id="nw" class="alt">Registrar nueva respuesta</button></div>
+<div class="tw"><table class="out"><thead><tr><th>Código</th><th>Sección</th><th>Pregunta</th><th>Respuesta</th></tr></thead><tbody id="tb"></tbody></table></div>
+</div>
+</section>
+</main>
+<script>
+/* ===== CONEXIÓN CON GOOGLE FORMS (pega aquí lo que genera crear_formulario_google.gs) ===== */
+const CFG={"FORM":"https://docs.google.com/forms/d/e/1FAIpQLSdgOwT5nYdp8nDBX9eObT3i6FDrR4z6GQTcXYgXG35UXd-UtA/formResponse","E":{"CI":"866584141","D1":"871003240","D2":"1678814823","D3":"908363292","C1":"835272533","C2":"1475558955","C3":"1664172822","C4":"1223270996","C5":"1601075333","C6":"305868535","C7":"1773359839","C8":"828293238","C9":"1787087468","C10":"1556590608","C11":"1561431974","C12":"1108508306","C13":"653041563","C14":"1735135976","C15":"610828500","C16":"978509866","C17":"178724400","C18":"1401850768","C19":"654381702","C20":"66603711","C21":"281751916","C22":"20655056","C23":"1112666331","C24":"446958917","C25":"101741052","C26":"1574954399","C27":"1984401420","C28":"1329967629","C29":"560184153","C30":"1525374526","C31":"1398686313","C32":"254285655","C33":"1865337657","C34":"463182849"}};
+const A=['Totalmente en desacuerdo','En desacuerdo','De acuerdo','Totalmente de acuerdo'],Fq=['Nunca','Casi nunca','Casi siempre','Siempre'];
+const L=k=>k=='a'?A:Fq, SO='Solo para quienes han usado IA generativa (no marcaron «Ninguna» en C1).';
+const P=[
+{t:'Consentimiento y datos generales',S:[{t:'',g:'k',Q:[
+{i:'CI',g:'',k:'r',t:'Acepto participar de manera voluntaria y anónima en este estudio.',o:['Sí, acepto','No acepto (termina el cuestionario)']},
+{i:'D1',k:'r',t:'Periodo de la licenciatura que cursas actualmente:',o:['Primero o segundo','Tercero o cuarto','Quinto o sexto','Séptimo u octavo','Noveno o posterior']},
+{i:'D2',k:'r',t:'Edad:',o:['18 años o menos','19 a 20 años','21 a 22 años','23 a 24 años','25 años o más']},
+{i:'D3',k:'c',t:'¿Cuál de las siguientes Experiencias Educativas has cursado o cursas actualmente?',o:['Comunicación Pedagógica','TIC aplicada a la Educación','Multimedia Educativa','Diseño de Ambientes Virtuales','Ninguna de las anteriores']}]}]},
+{t:'Primera parte. Categoría: Ámbito académico',d:'Uso de la IA generativa en las tareas y el aprendizaje del estudiante',S:[
+{t:'Sección 1. Acceso y familiaridad con herramientas de IA generativa',g:'s',Q:[
+{i:'C1',g:'k',k:'c',t:'¿Cuáles de las siguientes herramientas de IA generativa conoces o has utilizado?',n:'Selección múltiple. «Ninguna» es excluyente: quien la marque pasa directamente a la sección 6 (C22).',o:['ChatGPT','Microsoft Copilot','Google Gemini','Claude','Meta AI','Otra (especifica cuál)','Ninguna']},
+{i:'C2',k:'c',t:'¿Con qué medios cuentas para usar estas herramientas fuera de la universidad?',o:['Computadora o laptop propia','Teléfono celular','Tablet','Consola de videojuegos','Ninguna de las anteriores (solo uso los equipos de la facultad)']},
+{i:'C3',k:'r',t:'Mi nivel de conocimiento sobre cómo funcionan las herramientas de IA generativa es:',o:['Nulo','Básico','Intermedio','Avanzado']},
+{i:'C4',k:'r',t:'¿Has tomado algún curso, taller o tutorial sobre el uso de la IA?',o:['Sí, dentro de la Universidad','Sí, fuera de la Universidad','Sí, en ambos','No he tomado ninguno']}]},
+{t:'Sección 2. Frecuencia y tipo de uso en actividades académicas',d:SO,g:'s',Q:[
+{i:'C5',k:'r',t:'¿Con qué frecuencia utilizas IA generativa en tu vida cotidiana (fuera de las tareas escolares)?',o:['Nunca','Algunas veces al mes','Algunas veces por semana','Todos los días']},
+{i:'C6',k:'r',t:'¿Con qué frecuencia utilizas IA generativa en tus tareas escolares?',o:['Nunca','Algunas veces al mes','Algunas veces por semana','Todos los días']},
+{i:'C7',k:'c',t:'¿Para qué tareas escolares la utilizas?',o:['Resumir textos','Redactar ensayos o reportes','Traducir','Buscar información','Generar ideas','Programar','Corregir redacción u ortografía','Diseñar presentaciones o materiales','Otra (especifica cuál)']},
+{i:'C8',k:'c',t:'¿En qué momento de tus trabajos la utilizas?',o:['Planeación','Elaboración','Revisión','Versión final']}]},
+{t:'Sección 3. Integridad académica y uso ético',g:'s',Q:[
+{i:'C9',k:'r',t:'¿Tus docentes han establecido reglas sobre el uso de IA generativa en sus experiencias educativas?',o:['Sí, todos mis docentes','Sí, algunos de mis docentes','No, ninguno']},
+{i:'C10',k:'a',t:'Conozco los lineamientos institucionales (de la Universidad o de la facultad) sobre el uso de la IA en las tareas.'},
+{i:'C11',k:'a',t:'Presentar como propio un texto generado por IA sin modificarlo constituye plagio.'},
+{i:'C12',k:'f',t:'Menciono en mis trabajos que utilicé IA generativa cuando la he usado.'},
+{i:'C13',k:'f',t:'Evito escribir datos personales o de otras personas en las herramientas de IA.'}]},
+{t:'Sección 4. Pensamiento crítico y verificación de la información',d:SO,g:'s',Q:[
+{i:'C14',k:'f',t:'Contrasto la información que genera la IA con libros, artículos u otras fuentes.'},
+{i:'C15',k:'f',t:'Identifico errores, datos inventados o sesgos en las respuestas de la IA.'},
+{i:'C16',k:'a',v:1,t:'Confío en las respuestas de la IA sin necesidad de revisarlas.'}]},
+{t:'Sección 5. Percepción del impacto en el aprendizaje',d:SO,g:'s',Q:[
+{i:'C17',k:'a',t:'El uso de la IA me ayuda a comprender mejor los contenidos de mis materias.'},
+{i:'C18',k:'a',t:'Siento que dependo de la IA para realizar mis tareas.'},
+{i:'C19',k:'r',t:'¿Has usado IA generativa para recibir retroalimentación o revisar tus trabajos?',o:['Sí','No']},
+{i:'C20',k:'r',t:'Desde que uso IA generativa, mi motivación para leer e investigar:',o:['Ha disminuido','Se mantiene igual','Ha aumentado']},
+{i:'C21',k:'r',t:'Cuando utilizo IA en una tarea, normalmente:',o:['La uso como apoyo y desarrollo yo el contenido','La uso para generar la mayor parte del contenido y luego lo reviso y corrijo','La uso para generar la mayor parte del contenido y lo entrego con pocos cambios']}]}]},
+{t:'Segunda parte. Categoría: Uso educativo',d:'La IA generativa como recurso didáctico y de mediación pedagógica',S:[
+{t:'Sección 6. Percepciones y actitudes sobre la IA en la educación',g:'k',Q:[
+{i:'C22',k:'r',t:'¿Con cuál de las siguientes ideas asocias principalmente la IA en la educación?',o:['Un recurso de apoyo para aprender','Un recurso de apoyo para enseñar y planear','Una forma de hacer las tareas con menos esfuerzo','Un riesgo para la honestidad académica','Una amenaza para el trabajo docente']},
+{i:'C23',k:'r',t:'¿Cuál es tu sentimiento principal ante el uso de la IA en la escuela?',o:['Entusiasmo','Confianza','Desconfianza','Temor']},
+{i:'C24',k:'a',t:'Considero que la IA puede mejorar la formación de los pedagogos.'},
+{i:'C25',k:'a',t:'Me preocupa que el uso de la IA debilite el aprendizaje de los estudiantes.'},
+{i:'C26',k:'a',t:'La IA no debe sustituir el criterio del docente al evaluar los trabajos de los estudiantes.'},
+{i:'C27',k:'a',t:'La IA facilita el diseño de materiales didácticos más variados.'}]},
+{t:'Sección 8. Participación e interacción mediante recursos digitales',g:'k',Q:[
+{i:'C28',k:'a',t:'Participo más en clase cuando se utilizan herramientas digitales o de IA.'},
+{i:'C29',k:'a',t:'Me siento con confianza para expresar mi opinión en clase sobre el uso de la IA.'},
+{i:'C30',k:'r',t:'¿Qué es lo que más dificulta que expreses tus ideas en clase sobre el uso de la IA?',o:['Temor a que me consideren deshonesto(a)','No conocer lo suficiente el tema','Falta de reglas claras sobre su uso','Ninguna dificultad']}]},
+{t:'Sección 9. Orientaciones y necesidades formativas para un uso responsable',g:'k',Q:[
+{i:'C31',k:'a',t:'Considero necesario recibir formación sobre el uso ético de la IA.'},
+{i:'C32',k:'c',t:'¿Qué temas te gustaría aprender?',n:'Selección múltiple.',o:['Ética y plagio','Citación de contenido generado por IA','Verificación de información','Diseño de indicaciones o prompts','Privacidad de datos','Uso didáctico de la IA','Otro (especifica cuál)']},
+{i:'C33',k:'c',t:'¿Qué lineamientos te gustaría que se establecieran para el uso de IA en tus materias?',n:'Selección múltiple.',o:['Cómo declarar el uso de IA en los trabajos','Cómo citar contenido generado por IA','En qué tareas se permite y en cuáles no','Cómo se evaluarán los trabajos considerando el uso de IA','Cómo se protegerán los datos personales']},
+{i:'C34',k:'r',t:'¿Participarías en un curso-taller sobre el manejo responsable de la IA?',o:['Sí','No']}]}]}];
+
+const QM={},ALL=[];let H='';
+function qh(q){const lg=q.o.every(o=>o.length<30);
+let h=`<div class="q" data-i="${q.i}" data-g="${q.g}"><p class="qt"><b>${q.i}.</b> ${q.t}</p>${q.n?`<p class="note">${q.n}</p>`:''}<div class="opts${lg?' inl':''}">`;
+q.o.forEach((o,j)=>{const x=/^Ninguna/.test(o)?1:0,ot=/especifica/.test(o)?1:0;
+h+=`<label><input type="${q.k=='c'?'checkbox':'radio'}" name="${q.i}" value="${j}" data-x="${x}" data-o="${ot}"><span>${o}</span></label>`+(ot?`<input type="text" class="oth" data-for="${q.i}" placeholder="Especifica cuál" aria-label="Especifica cuál" hidden>`:'')});
+return h+'</div></div>'}
+function sg(it,k){let h=`<div class="tw has"><table class="sc"><thead><tr><th>${k=='a'?'Escala de acuerdo':'Escala de frecuencia'}</th>${L(k).map((x,j)=>`<th>${j+1} = ${x}</th>`).join('')}</tr></thead><tbody>`;
+it.forEach(q=>{h+=`<tr class="q" data-i="${q.i}" data-g="${q.g}"><td><b>${q.i}.</b> ${q.t}${q.v?' <em class="note">(ítem inverso)</em>':''}</td>${[1,2,3,4].map(v=>`<td><input type="radio" name="${q.i}" value="${v}" aria-label="${q.i}: ${v}"></td>`).join('')}</tr>`});
+return h+'</tbody></table></div>'}
+P.forEach(p=>{H+=`<section class="part has"><h2>${p.t}</h2>${p.d?`<p class="sub">${p.d}</p>`:''}<div class="body">`;
+p.S.forEach(s=>{H+=`<div class="sec has">${s.t?`<h3>${s.t}</h3>`:''}${s.d?`<p class="note">${s.d}</p>`:''}`;
+const Q=s.Q;for(let i=0;i<Q.length;i++){const q=Q[i];q.g??=s.g;q.sec=s.t||p.t;QM[q.i]=q;ALL.push(q);
+if(q.k=='a'||q.k=='f'){const gr=[q];while(Q[i+1]&&Q[i+1].k==q.k){const n=Q[++i];n.g??=s.g;n.sec=s.t;QM[n.i]=n;ALL.push(n);gr.push(n)}H+=sg(gr,q.k)}else H+=qh(q)}
+H+='</div>'});H+='</div></section>'});
+const F=document.getElementById('F');F.innerHTML=H;
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const ok=g=>{if(g==='')return true;const c=$('[name=CI]:checked')?.value==='0',n=!!$('[name=C1][data-x="1"]:checked');return c&&(g==='k'||!n)};
+function up(){$$('.q').forEach(e=>e.hidden=!ok(e.dataset.g));
+$$('.has').forEach(e=>e.hidden=![...e.querySelectorAll('.q')].some(q=>!q.hidden));
+$('#sb').hidden=!ok('k');$('#bye').hidden=$('[name=CI]:checked')?.value!=='1';
+$$('.oth').forEach(t=>{const q=t.dataset.for,o=$(`[name=${q}][data-o="1"]`);t.hidden=!o.checked;});}
+F.addEventListener('change',e=>{const t=e.target;
+if(t.type=='checkbox'&&t.checked){$$(`[name=${t.name}]`).forEach(o=>{if(o!==t&&(t.dataset.x==1||o.dataset.x==1))o.checked=false})}
+t.closest('.q')?.classList.remove('err');up()});
+up();
+
+function val(q){const e=$(`.q[data-i="${q.i}"]`),c=[...e.querySelectorAll(`[name=${q.i}]:checked`)];if(!c.length)return null;
+if(q.k=='a'||q.k=='f')return{n:+c[0].value,t:`${c[0].value} = ${L(q.k)[c[0].value-1]}`};
+const tx=c.map(x=>x.dataset.o==1?'Otra: '+(e.querySelector('.oth').value.trim()||'sin especificar'):q.o[x.value]);
+return{t:tx.join('; '),a:c.map((x,k)=>x.dataset.o==1?{o:1,x:e.querySelector('.oth').value.trim()}:{l:q.o[x.value]})}}
+
+let cur=null;
+$('#send').onclick=async()=>{const r={},miss=[];
+ALL.forEach(q=>{const e=$(`.q[data-i="${q.i}"]`);if(e.hidden){r[q.i]=null;return}
+const v=val(q);if(!v){miss.push(e);e.classList.add('err')}r[q.i]=v});
+if(miss.length){$('#msg').textContent=`Faltan ${miss.length} pregunta(s) por responder. Están marcadas en rojo.`;miss[0].scrollIntoView({behavior:'smooth',block:'center'});return}
+$('#msg').textContent='';cur={f:new Date().toLocaleString('es-MX'),r};
+if(CFG.FORM){const b=$('#send');b.disabled=true;b.textContent='Enviando…';
+try{await enviar(r)}catch(e){b.disabled=false;b.textContent='Enviar respuestas';$('#msg').textContent='No se pudo enviar. Revisa tu conexión a internet e inténtalo de nuevo.';return}
+b.disabled=false;b.textContent='Enviar respuestas'}
+let all=[];try{all=JSON.parse(localStorage.getItem('resp_ia_ped')||'[]')}catch(e){}
+all.push(cur);try{localStorage.setItem('resp_ia_ped',JSON.stringify(all))}catch(e){}
+show(all.length)};
+async function enviar(r){const fd=new FormData();
+ALL.forEach(q=>{const v=r[q.i],id=CFG.E[q.i];if(!v||!id)return;const k='entry.'+id;
+if(v.n!==undefined)fd.append(k,v.n);else v.a.forEach(x=>{if(x.o){fd.append(k,'__other_option__');fd.append(k+'.other_option_response',x.x||'sin especificar')}else fd.append(k,x.l)})});
+await fetch(CFG.FORM,{method:'POST',mode:'no-cors',body:fd})}
+function show(n){if(CFG.FORM&&location.hash!=='#cuadro'){$('#app').hidden=true;$('#thx').hidden=false;window.scrollTo(0,0);return}
+$('#tb').innerHTML=ALL.map(q=>{const v=cur.r[q.i],inv=q.v&&v?` (recodificado por ítem inverso: ${5-v.n})`:'';
+return `<tr class="${v?'':'na'}"><td>${q.i}</td><td>${q.sec}</td><td>${q.t}</td><td>${v?v.t+inv:'No aplica (salto de sección)'}</td></tr>`}).join('');
+$('#meta').textContent='Registrada el '+cur.f+'. Las respuestas nunca incluyen datos personales.';
+$('#dall').textContent=`Descargar todas las respuestas de este equipo (${n})`;
+$('#app').hidden=true;$('#out').hidden=false;window.scrollTo(0,0)}
+function csv(rows){const ids=ALL.map(q=>q.i);
+const h=['Fecha',...ids,'C16_recodificado'],esc=s=>`"${String(s??'').replace(/"/g,'""')}"`;
+const body=rows.map(x=>[x.f,...ids.map(i=>{const v=x.r[i];return v?(v.n??v.t):''}),x.r.C16?5-x.r.C16.n:''].map(esc).join(','));
+const b=new Blob(['\ufeff'+[h.map(esc).join(','),...body].join('\r\n')],{type:'text/csv;charset=utf-8'});
+const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='respuestas_cuestionario_IA.csv';a.click()}
+$('#d1').onclick=()=>csv([cur]);
+$('#dall').onclick=()=>{let a=[cur];try{a=JSON.parse(localStorage.getItem('resp_ia_ped')||'[]')}catch(e){}csv(a)};
+$('#nw').onclick=()=>{F.reset();$$('.err').forEach(e=>e.classList.remove('err'));up();$('#out').hidden=true;$('#app').hidden=false;window.scrollTo(0,0)};
+</script>
+</body>
+</html>
